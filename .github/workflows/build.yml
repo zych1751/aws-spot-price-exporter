@@ -3,13 +3,21 @@ on:
     types:
       - created
 jobs:
-  build:
+  container:
+    name: Build and push container
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+        with:
+          platforms: ${{ matrix.platform }}
       - name: Setup docker buildx
         uses: docker/setup-buildx-action@v3
       - name: Login to DockerHub
@@ -21,5 +29,16 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: heartpattern/aws-spot-price-exporter:${{ github.ref_name }}
-          platforms: linux/amd64,linux/arm64
+          tags: heartpattern/aws-spot-price-exporter:v${{ github.ref_name }}
+          platforms: ${{ matrix.platform }}
+  chart:
+    name: Build and push chart
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build and push helm chart
+        run: |
+          helm registry login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} registry-1.docker.io
+          helm package charts --version ${{ github.ref_name }} --app-version v${{ github.ref_name }}
+          helm push aws-spot-price-exporter-${{ github.ref_name }}.tgz oci://registry-1.docker.io/heartpattern

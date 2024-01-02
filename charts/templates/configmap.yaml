@@ -1,0 +1,14 @@
+{{- $fullName := include "aws-spot-price-exporter.fullname" . -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "aws-spot-price-exporter.labels" . | nindent 4 }}
+  {{- with .Values.configMap.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+data:
+  config.yaml: |-
+    {{ .Values.config | toYaml | nindent 4 }}

@@ -27,6 +27,7 @@ func ReadConfigOrDie() *Config {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("/")
+	viper.AddConfigPath("/etc/spot-price-exporter/")
 	viper.AddConfigPath(".")
 	viper.SetEnvPrefix("SPOT")
 	viper.AutomaticEnv()
