@@ -103,5 +103,5 @@ config:
 serviceMonitor:
   enabled: false
   namespace: ""
-  interval: ""
-  scrapeTimeout: ""
+  interval: 5m
+  scrapeTimeout: 30s
