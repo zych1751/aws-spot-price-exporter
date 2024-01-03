@@ -1,0 +1,12 @@
+{{- if .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "aws-spot-price-exporter.fullname" . }}
+  labels:
+    {{- include "aws-spot-price-exporter.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "aws-spot-price-exporter.selectorLabels" . | nindent 6 }}
+{{- end }}

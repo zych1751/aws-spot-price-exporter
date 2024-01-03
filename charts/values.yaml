@@ -100,3 +100,10 @@ config:
   mapZoneId: true
   metricName: aws_spot_price
   port: 8080
+
+serviceMonitor:
+  enabled: false
+  namespace: ""
+  additionalLabels: {}
+  interval: ""
+  scrapeTimeout: ""
