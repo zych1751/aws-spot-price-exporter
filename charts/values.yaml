@@ -41,7 +41,6 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
 
 ingress:
   enabled: false
@@ -104,6 +103,5 @@ config:
 serviceMonitor:
   enabled: false
   namespace: ""
-  additionalLabels: {}
   interval: ""
   scrapeTimeout: ""

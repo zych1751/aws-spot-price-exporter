@@ -6,7 +6,18 @@ metadata:
   labels:
     {{- include "aws-spot-price-exporter.labels" . | nindent 4 }}
 spec:
+  namespaceSelector:
+    matchNames:
+      - {{ default .Values.serviceMonitor.namespace .Release.Namespace }}
   selector:
     matchLabels:
       {{- include "aws-spot-price-exporter.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - port: http
+      interval: {{ .Values.serviceMonitor.interval }}
+      scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
+      path: /metrics
+      scheme: http
+
+
 {{- end }}
