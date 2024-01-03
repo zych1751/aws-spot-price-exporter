@@ -1,4 +1,6 @@
-FROM golang as builder
+FROM golang:alpine as builder
+RUN apk update && apt upgrade && apk add --no-cache ca-certificates
+RUN update-ca-certificates
 COPY . /
 RUN GOOS="$(echo "$TARGETPLATFORM" | cut -d "/" -f 1)" \
     GOARCH="$(echo "$TARGETPLATFORM" | cut -d "/" -f 2)" \
@@ -7,6 +9,7 @@ RUN GOOS="$(echo "$TARGETPLATFORM" | cut -d "/" -f 1)" \
 
 FROM scratch
 
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /app /app
 USER 1000
 
