@@ -1,5 +1,5 @@
 FROM golang:alpine as builder
-RUN apk update && apt upgrade && apk add --no-cache ca-certificates
+RUN apk update && apk upgrade && apk add --no-cache ca-certificates
 RUN update-ca-certificates
 COPY . /
 RUN GOOS="$(echo "$TARGETPLATFORM" | cut -d "/" -f 1)" \
