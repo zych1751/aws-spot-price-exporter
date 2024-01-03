@@ -10,4 +10,5 @@ FROM scratch
 COPY --from=builder /app /app
 USER 1000
 
+CMD ["/app"]
 ENTRYPOINT ["/app"]
