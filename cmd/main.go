@@ -20,6 +20,22 @@ func main() {
 		}
 	})
 
+	http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		_, err := w.Write([]byte("ok"))
+
+		if err != nil {
+			log.Printf("unable to write response, %v", err)
+		}
+	})
+
+	http.HandleFunc("/readyz", func(w http.ResponseWriter, r *http.Request) {
+		_, err := w.Write([]byte("ok"))
+
+		if err != nil {
+			log.Printf("unable to write response, %v", err)
+		}
+	})
+
 	log.Printf("listening on port %d", cfg.Port)
 	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(cfg.Port), nil))
 }
