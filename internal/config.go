@@ -1,8 +1,9 @@
 package internal
 
 import (
-	"github.com/spf13/viper"
 	"log"
+
+	"github.com/spf13/viper"
 )
 
 type Config struct {
@@ -27,7 +28,7 @@ func ReadConfigOrDie() *Config {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("/")
-	viper.AddConfigPath("/etc/spot-price-exporter/")
+	viper.AddConfigPath("/etc/aws-spot-price-exporter/")
 	viper.AddConfigPath(".")
 	viper.SetEnvPrefix("SPOT")
 	viper.AutomaticEnv()
